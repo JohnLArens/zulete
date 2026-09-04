@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}
+<div class="eyebrow">QUARANTINE</div><h1>Needs Review</h1><p>Zulete places uncertain messages here instead of deleting them.</p>
+{% for r in rows %}<div class="review"><div><strong>{{r.subject or "(no subject)"}}</strong><p>{{r.sender}} · {{r.account}} · spam score {{r.score}}/100</p><small>{{r.reason}}</small></div>
+<div class="row"><form method="post" action="/review/{{r.id}}/allow"><button class="secondary">Always allow</button></form><form method="post" action="/review/{{r.id}}/block"><button>Block sender</button></form></div></div>
+{% else %}<div class="panel">Nothing needs review.</div>{% endfor %}{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<div class="eyebrow">PROTECTION</div><h1>Settings</h1>
+<form class="panel settings" method="post">
+<label class="switchrow"><div><b>Automatically delete blocked senders</b><span>Once you block an email address, future mail from that address is removed automatically.</span></div><input type="checkbox" name="auto_delete_blocked_senders" {% if settings.auto_delete_blocked_senders %}checked{% endif %}></label>
+<label class="switchrow"><div><b>Automatically delete blocked domains</b><span>Remove messages from every address using a domain you explicitly block.</span></div><input type="checkbox" name="auto_delete_blocked_domains" {% if settings.auto_delete_blocked_domains %}checked{% endif %}></label>
+<label class="switchrow warn"><div><b>Permanently delete blocked mail</b><span>Off sends blocked mail to Trash. On may make deletion irreversible.</span></div><input type="checkbox" name="permanent_delete" {% if settings.permanent_delete %}checked{% endif %}></label>
+<label class="switchrow"><div><b>Automatic scanning</b><span>Scan connected accounts on the server's configured interval.</span></div><input type="checkbox" name="auto_scan" {% if settings.auto_scan %}checked{% endif %}></label>
+<div class="twocol"><label>Spam threshold<input type="number" min="1" max="100" name="spam_threshold" value="{{settings.spam_threshold}}"></label><label>Review threshold<input type="number" min="1" max="100" name="review_threshold" value="{{settings.review_threshold}}"></label></div>
+<button>Save settings</button></form>{% endblock %}

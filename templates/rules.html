@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<div class="eyebrow">CONTROL</div><h1>Allow & Block</h1><p>Block one address or an entire domain. Trusted rules override spam scoring.</p>
+<form class="ruleform" method="post" action="/rules/add">
+<input name="value" required placeholder="sender@example.com or example.com">
+<select name="kind"><option value="email">Email address</option><option value="domain">Domain</option></select>
+<select name="status"><option value="blocked">Block</option><option value="allowed">Always allow</option></select><button>Add rule</button></form>
+<div class="tablewrap"><table><thead><tr><th>Rule</th><th>Type</th><th>Status</th><th></th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{r.value}}</td><td>{{r.kind}}</td><td><span class="pill {{r.status}}">{{r.status}}</span></td><td><form method="post" action="/rules/{{r.id}}/delete"><button class="textbtn">Remove</button></form></td></tr>
+{% else %}<tr><td colspan="4">No rules yet.</td></tr>{% endfor %}</tbody></table></div>{% endblock %}

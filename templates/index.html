@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block content %}
+<header><div><div class="eyebrow">EMAIL PROTECTION</div><h1>Your inbox is protected.</h1><p>Zulete learns what you want, quarantines uncertainty, and removes senders you block.</p></div><div class="zmark">Z</div></header>
+<div class="cards">
+<div class="metric"><b>{{metrics.deleted}}</b><span>Auto-deleted</span></div>
+<div class="metric"><b>{{metrics.review}}</b><span>Needs review</span></div>
+<div class="metric"><b>{{metrics.blocked}}</b><span>Blocked rules</span></div>
+<div class="metric"><b>{{metrics.trusted}}</b><span>Trusted rules</span></div></div>
+
+<div class="section-title"><h2>Email accounts</h2><a href="/connect">Manage</a></div>
+<div class="accounts">
+{% for key,label in [('gmail','Gmail'),('icloud','iCloud Mail')] %}
+<div class="account"><div><strong>{{label}}</strong><span class="{{'connected' if accounts[key].connected else 'not'}}">{{'Connected' if accounts[key].connected else 'Not connected'}}</span></div>
+{% if accounts[key].connected %}<form method="post" action="/scan/{{key}}"><button>Scan now</button></form>{% else %}<a class="button secondary" href="/connect">Connect</a>{% endif %}
+</div>{% endfor %}</div>
+
+<div class="shieldbar"><div><b>Blocked Sender Auto-Delete</b><p>{{'ON — future mail from blocked senders is automatically removed.' if settings.auto_delete_blocked_senders else 'OFF — blocked senders are not automatically removed.'}}</p></div><a href="/settings">Protection settings</a></div>
+
+<div class="section-title"><h2>Recent activity</h2></div>
+<div class="tablewrap"><table><thead><tr><th>Account</th><th>Sender</th><th>Subject</th><th>Action</th></tr></thead><tbody>
+{% for a in activity %}<tr><td>{{a.account}}</td><td>{{a.sender}}</td><td>{{a.subject}}</td><td><span class="pill {{a.action}}">{{a.action}}</span></td></tr>
+{% else %}<tr><td colspan="4">Zulete has not processed mail yet.</td></tr>{% endfor %}
+</tbody></table></div>{% endblock %}

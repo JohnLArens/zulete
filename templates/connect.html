@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block content %}
+<div class="eyebrow">SETUP</div><h1>Connect your email.</h1><p>Zulete keeps authorization secrets encrypted locally.</p>
+<div class="connectgrid">
+<section class="panel"><h2>Gmail</h2><p>Connect through Google's authorization screen. Zulete requests permission to read and organize Gmail so it can filter your inbox.</p>
+{% if gmail.connected %}<div class="ok">✓ Gmail connected</div><form method="post" action="/disconnect/gmail"><button class="danger">Disconnect Gmail</button></form>
+{% elif google_ready %}<a class="button" href="/connect/gmail">Connect Gmail with Google</a>
+{% else %}<div class="notice">Google OAuth client credentials still need to be added to the server.</div>{% endif %}</section>
+
+<section class="panel"><h2>iCloud Mail</h2><p>Enter your iCloud email and an Apple app-specific password. Zulete validates the login before saving it encrypted.</p>
+{% if icloud.connected %}<div class="ok">✓ {{icloud.address}} connected</div><form method="post" action="/disconnect/icloud"><button class="danger">Disconnect iCloud</button></form>
+{% else %}
+<form method="post" action="/connect/icloud" class="stack">
+<label>iCloud email<input name="address" type="email" required placeholder="name@icloud.com"></label>
+<label>App-specific password<input name="app_password" type="password" required placeholder="xxxx-xxxx-xxxx-xxxx"></label>
+<button {% if not master_ready %}disabled{% endif %}>Connect iCloud Mail</button></form>
+{% if not master_ready %}<div class="notice">Set ZULETE_MASTER_KEY before storing credentials.</div>{% endif %}
+{% endif %}</section></div>{% endblock %}
